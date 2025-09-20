@@ -1,10 +1,13 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+"use client"
+import HeroSection from "@/components/hero";
+ 
 
 export default function Home() {
   return (
     <div className="mt-40">
-      <Button>Hello There</Button>
+      
+      <HeroSection />
+      
     </div>
   );
 }
