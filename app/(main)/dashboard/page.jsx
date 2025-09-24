@@ -1,11 +1,19 @@
 import React from 'react'
+import { CreateAccountDrawer } from '@/components/create-account-drawer'
 
 const DashboardPage = () => {
   return (
     <div className='px-5'>
-      <h1 className='text-6xl font-bold gradient-title mb-5'>
-        Dashboard
-      </h1>
+      {/* budget progress */}
+
+      {/* oerview */}
+
+      {/*Account grid */}
+      <div>
+        <CreateAccountDrawer>open</CreateAccountDrawer>
+
+      </div>
+
     </div>
   )
 }
