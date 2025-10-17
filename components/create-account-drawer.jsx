@@ -1,5 +1,6 @@
-"use client";
+"use client"
 
+import React from 'react'
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,18 +27,19 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { createAccount } from "@/actions/dashboard";
-// import { accountSchema } from "@/app/lib/schema";
+import { accountSchema } from "@/app/lib/schema";
 
-export function CreateAccountDrawer({ children }) {
+
+const CreateAccountDrawer = ({children}) => {
   const [open, setOpen] = useState(false);
-  const {
+ const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
     reset,
-  } = useForm({
+} = useForm({
     resolver: zodResolver(accountSchema),
     defaultValues: {
       name: "",
@@ -45,42 +47,25 @@ export function CreateAccountDrawer({ children }) {
       balance: "",
       isDefault: false,
     },
-  });
+  })
 
-  const {
-    loading: createAccountLoading,
-    fn: createAccountFn,
-    error,
-    data: newAccount,
-  } = useFetch(createAccount);
 
-  const onSubmit = async (data) => {
-    await createAccountFn(data);
+    const onSubmit = async (data) => {
+    // await createAccountFn(data);
+    console.log("Form Data:", data);
   };
 
-  useEffect(() => {
-    if (newAccount) {
-      toast.success("Account created successfully");
-      reset();
-      setOpen(false);
-    }
-  }, [newAccount, reset]);
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Failed to create account");
-    }
-  }, [error]);
+    return (
+  <Drawer open={open} onOpenChange={setOpen}>
+   <DrawerTrigger asChild>{children}</DrawerTrigger>
+    <DrawerContent>
+      <DrawerHeader>
+        <DrawerTitle>Create New Account</DrawerTitle> 
+      </DrawerHeader>
+        <div className='px-4 pb-4'> 
 
-  return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Create New Account</DrawerTitle>
-        </DrawerHeader>
-        <div className="px-4 pb-4">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
             <div className="space-y-2">
               <label
                 htmlFor="name"
@@ -122,7 +107,7 @@ export function CreateAccountDrawer({ children }) {
               )}
             </div>
 
-            <div className="space-y-2">
+             <div className="space-y-2">
               <label
                 htmlFor="balance"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -141,7 +126,7 @@ export function CreateAccountDrawer({ children }) {
               )}
             </div>
 
-            <div className="flex items-center justify-between rounded-lg border p-3">
+              <div className="flex items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
                 <label
                   htmlFor="isDefault"
@@ -169,21 +154,24 @@ export function CreateAccountDrawer({ children }) {
               <Button
                 type="submit"
                 className="flex-1"
-                disabled={createAccountLoading}
+                // disabled={createAccountLoading}
               >
-                {createAccountLoading ? (
+                {/* {createAccountLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Creating...
                   </>
                 ) : (
                   "Create Account"
-                )}
+                )} */}Create Account
               </Button>
             </div>
+
           </form>
-        </div>
-      </DrawerContent>
-    </Drawer>
-  );
+        </div>     
+    </DrawerContent>
+  </Drawer>
+    )
 }
+
+export default CreateAccountDrawer
