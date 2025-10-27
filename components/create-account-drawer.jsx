@@ -47,13 +47,32 @@ const CreateAccountDrawer = ({children}) => {
       balance: "",
       isDefault: false,
     },
-  })
+  });
+
+
+ const { data: newAccount, loading: createAccountLoading, error, fn: createAccountFn } = useFetch(createAccount)
 
 
     const onSubmit = async (data) => {
-    // await createAccountFn(data);
-    console.log("Form Data:", data);
+     await createAccountFn(data);
+    // console.log("Form Data:", data);
   };
+
+   useEffect(() => {
+    if (newAccount && !createAccountLoading) {
+      toast.success("Account created successfully");
+      reset();
+      setOpen(false);
+    }
+  }, [newAccount, createAccountLoading]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Failed to create account");
+    }
+  }, [error]);
+
+
 
 
     return (
@@ -154,16 +173,16 @@ const CreateAccountDrawer = ({children}) => {
               <Button
                 type="submit"
                 className="flex-1"
-                // disabled={createAccountLoading}
+                disabled={createAccountLoading}
               >
-                {/* {createAccountLoading ? (
+                {createAccountLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Creating...
                   </>
                 ) : (
                   "Create Account"
-                )} */}Create Account
+                )}
               </Button>
             </div>
 
